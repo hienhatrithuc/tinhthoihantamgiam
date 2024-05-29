@@ -45,24 +45,26 @@
             const birthDate = new Date(document.getElementById('birthDate').value);
             const calcDate = new Date(document.getElementById('calcDate').value);
 
-            const years = calcDate.getFullYear() - birthDate.getFullYear();
-            const months = calcDate.getMonth() - birthDate.getMonth();
-            const days = calcDate.getDate() - birthDate.getDate();
-
-            let adjustedYears = years;
-            let adjustedMonths = months;
-            let adjustedDays = days;
+            let years = calcDate.getFullYear() - birthDate.getFullYear();
+            let months = calcDate.getMonth() - birthDate.getMonth();
+            let days = calcDate.getDate() - birthDate.getDate();
 
             if (days < 0) {
-                adjustedMonths--;
-                adjustedDays += new Date(calcDate.getFullYear(), calcDate.getMonth(), 0).getDate();
+                months--;
+                days += new Date(calcDate.getFullYear(), calcDate.getMonth(), 0).getDate();
             }
             if (months < 0) {
-                adjustedYears--;
-                adjustedMonths += 12;
+                years--;
+                months += 12;
             }
 
-            document.getElementById('calculatedAge').innerText = `${adjustedYears} năm ${adjustedMonths} tháng ${adjustedDays} ngày`;
+            if (years < 0) {
+                years = 0;
+                months = 0;
+                days = 0;
+            }
+
+            document.getElementById('calculatedAge').innerText = `${years} năm ${months} tháng ${days} ngày`;
 
             const today = new Date();
             const ageNow = ((today - birthDate) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(15);
