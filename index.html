@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -26,40 +26,49 @@
         }
     </style>
     <script>
-    function calculateAge() {
-    const birthDate = new Date(document.getElementById('birthDate').value);
-    const calcDate = new Date(document.getElementById('calcDate').value);
+        function calculateDates() {
+            const startDate = new Date(document.getElementById('startDate').value);
+            const duration = parseInt(document.getElementById('duration').value);
+            const extension = parseInt(document.getElementById('extension').value);
 
-    // Tính số tuổi
-    let years = calcDate.getFullYear() - birthDate.getFullYear();
-    let months = calcDate.getMonth() - birthDate.getMonth();
-    let days = calcDate.getDate() - birthDate.getDate();
+            const endDate = new Date(startDate);
+            endDate.setDate(endDate.getDate() + duration + extension - 1);
 
-    // Kiểm tra nếu ngày sinh sau ngày tính tuổi trong tháng
-    if (days < 0) {
-        months--; // Giảm số tháng
-        // Tính toán số ngày còn lại trong tháng trước
-        const lastDayOfLastMonth = new Date(calcDate.getFullYear(), calcDate.getMonth(), 0).getDate();
-        days += lastDayOfLastMonth;
-    }
+            const today = new Date();
+            const daysRemaining = Math.ceil((endDate - today) / (1000 * 60 * 60 * 24));
 
-    // Kiểm tra nếu tháng sinh sau tháng tính tuổi trong năm
-    if (months < 0) {
-        years--; // Giảm số tuổi
-        months += 12; // Thêm 12 tháng
-    }
+            document.getElementById('endDate').innerText = endDate.toLocaleDateString('vi-VN');
+            document.getElementById('daysRemaining').innerText = daysRemaining;
+        }
 
-    // Hiển thị kết quả
-    document.getElementById('calculatedAge').innerText = `${years} tuổi ${months} tháng ${days} ngày`;
+        function calculateAge() {
+            const birthDate = new Date(document.getElementById('birthDate').value);
+            const calcDate = new Date(document.getElementById('calcDate').value);
 
-    // Tính tuổi hiện tại
-    const today = new Date();
-    const ageNow = ((today - birthDate) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(15);
-    document.getElementById('currentAge').innerText = `${ageNow} tuổi`;
-}
+            const years = calcDate.getFullYear() - birthDate.getFullYear();
+            const months = calcDate.getMonth() - birthDate.getMonth();
+            const days = calcDate.getDate() - birthDate.getDate();
 
+            let adjustedYears = years;
+            let adjustedMonths = months;
+            let adjustedDays = days;
 
+            if (days < 0) {
+                adjustedMonths--;
+                adjustedDays += new Date(calcDate.getFullYear(), calcDate.getMonth(), 0).getDate();
+            }
+            if (months < 0) {
+                adjustedYears--;
+                adjustedMonths += 12;
+            }
 
+            document.getElementById('calculatedAge').innerText = `${adjustedYears} năm ${adjustedMonths} tháng ${adjustedDays} ngày`;
+
+            const today = new Date();
+            const ageNow = ((today - birthDate) / (1000 * 60 * 60 * 24 * 365.25)).toFixed(15);
+
+            document.getElementById('currentAge').innerText = `${ageNow} tuổi`;
+        }
     </script>
 </head>
 <body onload="calculateDates(); calculateAge();">
@@ -73,7 +82,7 @@
         <tr>
             <td class="input"><input type="date" id="startDate" value="2024-03-22" oninput="calculateDates()"></td>
             <td class="input"><input type="number" id="duration" value="30" oninput="calculateDates()"></td>
-            <td class="input"><input type="number" id="extension" value="90" oninput="calculateDates()"></td>
+            <td class="input"><input type="number" id="extension" value="0" oninput="calculateDates()"></td>
         </tr>
         <tr>
             <td colspan="3" class="highlight">KẾT QUẢ</td>
@@ -102,7 +111,7 @@
         </tr>
         <tr class="highlight">
             <td>Tuổi đến thời điểm cần tính</td>
-            <td colspan="2" id="calculatedAge">12 tuổi 3 tháng 20 ngày</td>
+            <td colspan="2" id="calculatedAge">12 năm 3 tháng 20 ngày</td>
         </tr>
         <tr class="highlight">
             <td>Tuổi hiện nay là</td>
