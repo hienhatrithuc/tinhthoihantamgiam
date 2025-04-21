@@ -1,28 +1,76 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
     <title>Tính Thời Hạn Tạm Giam và Tính Tuổi</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            margin: 0;
+            font-size: 16px;
+        }
+
+        h2 {
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 1rem;
         }
+
         th, td {
-            border: 1px solid black;
-            padding: 8px;
+            border: 1px solid #000;
+            padding: 6px;
             text-align: center;
+            font-size: 0.95rem;
         }
+
         .highlight {
             background-color: yellow;
+            font-weight: bold;
         }
+
         .input {
             background-color: #ffcccc;
         }
-        td input[type="number"] {
-            width: 90%;
+
+        input[type="date"],
+        input[type="number"] {
+            width: 100%;
+            padding: 6px;
             box-sizing: border-box;
+            font-size: 0.95rem;
+        }
+
+        p {
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+
+            th, td {
+                font-size: 14px;
+                padding: 4px;
+            }
+
+            input[type="date"],
+            input[type="number"] {
+                font-size: 14px;
+                padding: 4px;
+            }
+
+            h2 {
+                font-size: 1rem;
+            }
         }
     </style>
     <script>
@@ -42,14 +90,14 @@
         }
 
         function calculateAge() {
-             const birthDate = new Date(document.getElementById('birthDate').value);
+            const birthDate = new Date(document.getElementById('birthDate').value);
             const calcDate = new Date(document.getElementById('calcDate').value);
 
             let years = calcDate.getFullYear() - birthDate.getFullYear();
             let months = calcDate.getMonth() - birthDate.getMonth();
             let days = calcDate.getDate() - birthDate.getDate();
 
-           if (days < 0) {
+            if (days < 0) {
                 months--;
                 days += new Date(calcDate.getFullYear(), calcDate.getMonth(), 0).getDate();
             }
@@ -71,18 +119,16 @@
     <h2>* TÍNH THỜI HẠN TẠM GIAM</h2>
     <table>
         <tr>
-            <th class="wide">Ngày giam</th>
-            <th class="narrow">Thời hạn Tạm giam (Ngày)</th>
-            <th class="narrow">Gia hạn Tạm giam (Ngày)</th>
+            <th>Ngày giam</th>
+            <th>Thời hạn TG (Ngày)</th>
+            <th>Gia hạn TG (Ngày)</th>
         </tr>
         <tr>
             <td class="input"><input type="date" id="startDate" value="2024-03-22" oninput="calculateDates()"></td>
             <td class="input"><input type="number" id="duration" value="30" oninput="calculateDates()"></td>
             <td class="input"><input type="number" id="extension" value="0" oninput="calculateDates()"></td>
         </tr>
-        <tr>
-            <td colspan="3" class="highlight">KẾT QUẢ</td>
-        </tr>
+        <tr><td colspan="3" class="highlight">KẾT QUẢ</td></tr>
         <tr>
             <td>Ngày hết hạn</td>
             <td colspan="2" id="endDate">19/07/2024</td>
@@ -115,6 +161,6 @@
         </tr>
     </table>
 
-    <p>* Nhập vào ô màu đỏ và đợi kết quả tính ngày hết hạn tạm giam và tính tuổi. Xin cảm ơn!</p>
+    <p>* Nhập vào ô màu đỏ và đợi kết quả tính ngày hết hạn tạm giam và tính tuổi.</p>
 </body>
 </html>
